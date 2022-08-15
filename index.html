@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./防抖debounce.js"></script>
+    <script src="./test.js"></script>
+    <script src="./URL提取参数.js"></script>
+    <!-- <script src="./快排.js"></script> -->
+    <input type="text">
+
+    <script>
+        const inputEl = document.querySelector('input')
+        let counter = 0
+        const inputChange = () =>{
+            console.log(`发送了第${++counter}次网络请求`);    
+        }
+        inputEl.oninput = debounce(inputChange,2000)
+
+
+
+
+    </script>
+    
+</body>
+</html>
