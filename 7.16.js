@@ -454,7 +454,7 @@ function throttle(fn, interval) {
     return function (...args) {
         let nowTime = Date.now();
         let reminTime = interval - (nowTime - lastTime);
-        if (reminTime > 0) {
+        if (reminTime <= 0) {
             fn.apply(this, args)
             lastTime = nowTime;
         }
@@ -463,6 +463,7 @@ function throttle(fn, interval) {
 }
 
 function quickSort(nums) {
+    if (nums.length === 0) return nums
     let midIndex = parseInt(nums.length / 2);
     let midValue = nums.splice(midIndex, 1)[0];
 
@@ -664,3 +665,35 @@ function getJson(url) {
     })
 }
 
+function mySetInterval(fn, delay) {
+    function interval() {
+        setTimeout(interval, delay);
+        fn();
+    }
+    setTimeout(interval, delay);
+}
+
+function mySetInterval(fn, delay, count) {
+    function interval() {
+        if (typeof count === 'underfind' || count-- > 0) {
+            setTimeout(interval, delay);
+            try {
+                fn()
+            } catch (e) {
+                count = 0;
+                throw e.toString();
+            }
+        }
+    }
+    setTimeout(interval, delay);
+}
+
+function runPromise(promises) {
+    const result = [];
+
+    return new Promise((resolve, reject) => {
+        promises.reduce((pre, cur) => {
+            pre.then(cur).then(data => result.push(data));
+        }, Promise.resolve()).then(() => resolve(result))
+    })
+}
