@@ -443,7 +443,6 @@ for(var i = 0; i< 5;i++){
     }, i*1000,i);
 }
 
-console.log('script start');
 
 
 
