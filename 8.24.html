@@ -7,8 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <script>
-const source = [
+    <script >
+        const source = [
     { id: "01", name: "张大大", pid: "", job: "项目经理" },
     { id: "02", name: "小亮", pid: "01", job: "产品leader" },
     { id: "03", name: "小美", pid: "01", job: "UIleader" },
@@ -32,20 +32,18 @@ function toTree(arrays) {
     for (let item of arrays) {
         const newItem = map[item.id] = {
             ...item,
-            children:[]
+            children: []
         }
-        if(map[item.pid]){
+        if (map[item.pid]) {
             map[item.pid].children.push(newItem);
-        }else{
+        } else {
             tree.push(newItem);
         }
     }
-  console.log(tree.children);
-    
-    return tree;
+
+    return tree[0];
 }
 console.log(toTree(source));
-
     </script>
 </body>
 </html>

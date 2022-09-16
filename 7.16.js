@@ -275,6 +275,7 @@ VueRouter.prototype.push = (location, resolve, reject) => {
         originPush.call(location, () => { }, () => { })
     }
 }
+
 /**
  * 原型链继承
  */

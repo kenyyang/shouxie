@@ -251,19 +251,23 @@ tree = [{
         }]
 
  */
-    const source = [{
-        id: 1,
-        pid: 0,
-        name: 'body'
-    }, {
-        id: 2,
-        pid: 1,
-        name: 'title'
-    }, {
-        id: 3,
-        pid: 2,
-        name: 'div'
-    }]
+const source = [
+    { id: "01", name: "张大大", pid: "", job: "项目经理" },
+    { id: "02", name: "小亮", pid: "01", job: "产品leader" },
+    { id: "03", name: "小美", pid: "01", job: "UIleader" },
+    { id: "04", name: "老马", pid: "01", job: "技术leader" },
+    { id: "05", name: "老王", pid: "01", job: "测试leader" },
+    { id: "06", name: "老李", pid: "01", job: "运维leader" },
+    { id: "07", name: "小丽", pid: "02", job: "产品经理" },
+    { id: "08", name: "大光", pid: "02", job: "产品经理" },
+    { id: "09", name: "小高", pid: "03", job: "UI设计师" },
+    { id: "10", name: "小刘", pid: "04", job: "前端工程师" },
+    { id: "11", name: "小华", pid: "04", job: "后端工程师" },
+    { id: "12", name: "小李", pid: "04", job: "后端工程师" },
+    { id: "13", name: "小赵", pid: "05", job: "测试工程师" },
+    { id: "14", name: "小强", pid: "05", job: "测试工程师" },
+    { id: "15", name: "小涛", pid: "06", job: "运维工程师" }
+]
 function toTree(arrays) {
     const tree = [];
     const map = {};
@@ -271,33 +275,175 @@ function toTree(arrays) {
     for (let item of arrays) {
         const newItem = map[item.id] = {
             ...item,
-            children:[]
+            children: []
         }
-        if(map[item.pid]){
+        if (map[item.pid]) {
             map[item.pid].children.push(newItem);
-        }else{
+        } else {
             tree.push(newItem);
         }
     }
-  console.log(tree.children);
-    
-    return tree;
+    console.log(tree.children);
+    console.log('treeeee',tree.join(''));
+    return str;
 }
 console.log(toTree(source));
 
 const tree = {
     name: 'root',
     children: [
-      { name: '叶子1-1' },
-      { name: '叶子1-2' },
-      {
-        name: '叶子2-1',
-        children: [{
-          name: '叶子3-1',
-          children: [{
-            name: '叶子4-1'
-          }]
-        }]
-      }
+        { name: '叶子1-1' },
+        { name: '叶子1-2' },
+        {
+            name: '叶子2-1',
+            children: [{
+                name: '叶子3-1',
+                children: [{
+                    name: '叶子4-1'
+                }]
+            }]
+        }
     ]
-  }
+}
+
+function curr(fn) {
+    function curried(...args) {
+        if (fn.length <= args.length) {
+            fn.apply(this, ...args)
+        } else {
+            return function (...args2) {
+                const finArgs = [...args, ...args2];
+                return curried(finArgs);
+            }
+        }
+    }
+    return curried
+}
+var entry = {
+    a: {
+        b: {
+            c: {
+                dd: 'abcdd'
+            }
+        },
+        d: {
+            xx: 'adxx'
+        },
+        e: 'ae'
+    }
+}
+
+function flatObj(obj, parentKey = '', result = {}) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const keyName = `${parentKey}${key}`;
+            if (typeof obj[key] === 'object') {
+                flatObj(obj[key], keyName + '.', result)
+            } else {
+                result[keyName] = key;
+            }
+        }
+    }
+    return result;
+}
+const _tree = {
+    name: 'root',
+    children: [
+        {
+            name: 'c1',
+            children: [
+                {
+                    name: 'c11',
+                    children: []
+                },
+                {
+                    name: 'c12',
+                    children: []
+                }
+            ]
+        },
+        {
+            name: 'c2',
+            children: [
+                {
+                    name: 'c21',
+                    children: []
+                },
+                {
+                    name: 'c22',
+                    children: []
+                }
+            ]
+        }
+    ]
+}
+
+// 深度优先的方式遍历 打印 name
+// ['root', 'c1','c11', 'c12', 'c2', 'c21', 'c22']
+function dfsTree(root) {
+    if (!root) return [];
+    const queue = [root];
+    const result = [];
+
+    while (queue.length) {
+        let node = queue.pop();
+        if (!node) continue
+        result.push(node.name);
+
+        for (let i = node.children.length - 1; i >= 0; i--) {
+            queue.push(node.children[i]);
+        }
+    }
+    return result;
+}
+console.log(dfsTree(_tree));
+
+const red = () => {
+    console.log('red');
+}
+const green = () => {
+    console.log('green');
+}
+const yellow = () => {
+    console.log('yellow');
+}
+
+function task(timer, light) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            if (light === 'red') {
+                red()
+            } else if (light === 'green') {
+                green()
+            } else if (light === 'yellow') {
+                yellow()
+            }
+            resolve()
+        }, timer);
+    })
+}
+const taskRunner = async () => {
+    await task(3000, 'red')
+    await task(2000, 'green')
+    await task(2100, 'yellow')
+    taskRunner()
+}
+console.log(taskRunner())
+
+for (var i = 0; i < 5; i++) {
+    (function (i) {
+        setTimeout(() => {
+            console.log(i);
+        }, i * 1000)
+    })(i)
+}
+for(var i = 0; i< 5;i++){
+    setTimeout((i) => {
+        console.log(i);   
+    }, i*1000,i);
+}
+
+console.log('script start');
+
+
+

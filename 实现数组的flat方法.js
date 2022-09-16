@@ -26,7 +26,7 @@ function flat(arr, depth = 1) {
     }
     return result
 }
-console.log(flat([1,2,[3,4],5],1))
+console.log(flat([1, 2, [3, 4], 5], 1))
 
 
 function _flat(nums, depth) {
@@ -43,4 +43,21 @@ function _flat(nums, depth) {
     }
     return array
 }
-console.log(_flat([1,2,[3,4],5],1))
+console.log(_flat([1, 2, [3, 4], 5], 1))
+
+function Foo() {
+    this.a = 4
+    return {
+        a: 5,
+        b: 6
+    }
+}
+Foo.prototype.a = 7
+Foo.prototype.b = 8
+Foo.prototype.c = 9
+let f = new Foo()
+console.log(f.a);
+console.log(f.b);
+console.log(f.c);
+
+
